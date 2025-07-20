@@ -96,6 +96,19 @@ header h1 {
 
 .modal-body {
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal-body img,
+.modal-body video {
+  max-width: 100%;
+  max-height: 60vh;
+  border-radius: 8px;
+  object-fit: contain;
+  display: block;
 }
 
 #modalClose {
