@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Move all meme-portfolio files to root",
+			"command": "move meme-portfolio\\* . && move meme-portfolio\\.gitignore . 2>nul && move meme-portfolio\\.* . 2>nul",
+			"args": [],
+			"problemMatcher": [],
+			"group": "build",
+			"isBackground": false
+		}
+	]
+}
