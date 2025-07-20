@@ -1,0 +1,12 @@
+[
+    {
+        "title": "Funny Cat",
+        "type": "image",
+        "src": "assets/memes/funny-cat.jpg"
+    },
+    {
+        "title": "Epic Fail Video",
+        "type": "video",
+        "src": "assets/memes/epic-fail.mp4"
+    }
+]

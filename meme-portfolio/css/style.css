@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #222;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background: #444;
+    padding: 1rem;
+    text-align: center;
+}
+#meme-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 2rem;
+}
+.meme-item {
+    background: #333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    width: 300px;
+    text-align: center;
+}
+.meme-item img, .meme-item video {
+    width: 100%;
+    display: block;
+}
+.meme-title {
+    padding: 0.5rem;
+    font-weight: bold;
+}
