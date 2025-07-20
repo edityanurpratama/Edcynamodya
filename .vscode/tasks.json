@@ -1,14 +1,33 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-		{
-			"type": "shell",
-			"label": "Move all meme-portfolio files to root",
-			"command": "move meme-portfolio\\* . && move meme-portfolio\\.gitignore . 2>nul && move meme-portfolio\\.* . 2>nul",
-			"args": [],
-			"problemMatcher": [],
-			"group": "build",
-			"isBackground": false
+	{
+	  "type": "shell",
+	  "label": "Move all meme-portfolio files to root (PowerShell)",
+	  "command": "Get-ChildItem 'meme-portfolio' | Move-Item -Destination .",
+	  "options": {
+		"shell": {
+		  "executable": "powershell.exe"
 		}
+	  },
+	  "args": [],
+	  "problemMatcher": [],
+	  "group": "build",
+	  "isBackground": false
+	},
+	{
+	  "type": "shell",
+	  "label": "Delete meme-portfolio folder (PowerShell)",
+	  "command": "Remove-Item 'meme-portfolio' -Recurse -Force",
+	  "options": {
+		"shell": {
+		  "executable": "powershell.exe"
+		}
+	  },
+	  "args": [],
+	  "problemMatcher": [],
+	  "group": "build",
+	  "isBackground": false
+	}
 	]
 }
