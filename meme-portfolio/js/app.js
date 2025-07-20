@@ -1,33 +1,110 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('data/memes.json')
-        .then(response => response.json())
-        .then(data => displayMemes(data))
-        .catch(err => console.error('Failed to load memes:', err));
+// Elements
+const grid = document.getElementById('memeGrid');
+const modal = document.getElementById('memeModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalContent = document.getElementById('modalContent');
+const closeBtn = document.getElementById('modalClose');
+const clickSound = document.getElementById('clickSound');
+const overlay = document.createElement('div');
+overlay.className = 'overlay';
+document.body.appendChild(overlay);
 
-    function displayMemes(memes) {
-        const gallery = document.getElementById('meme-gallery');
-        memes.forEach(meme => {
-            const item = document.createElement('div');
-            item.className = 'meme-item';
-            let media;
-            if (meme.type === 'image') {
-                media = document.createElement('img');
-                media.src = meme.src;
-                media.alt = meme.title;
-            } else if (meme.type === 'video') {
-                media = document.createElement('video');
-                media.src = meme.src;
-                media.controls = true;
-            }
-            item.appendChild(media);
-            const title = document.createElement('div');
-            title.className = 'meme-title';
-            title.textContent = meme.title;
-            item.appendChild(title);
-            item.addEventListener('click', () => {
-                document.getElementById('click-sound').play();
-            });
-            gallery.appendChild(item);
+// Load meme data
+fetch('data/memes.json')
+  .then(response => response.json())
+  .then(memes => {
+    memes.forEach(meme => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        ${meme.type === 'image' ? 
+          `<img src="${meme.src}" alt="${meme.title}" onerror="this.onerror=null;this.src='assets/memes/default-meme.png';">` : 
+          `<video src="${meme.src}" muted loop></video>`}
+        <div>${meme.title}</div>
+      `;
+      
+      // Auto-play video on hover
+      if (meme.type === 'video') {
+        const video = card.querySelector('video');
+        card.addEventListener('mouseenter', () => video.play());
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
         });
-    }
+      }
+      
+      card.addEventListener('click', () => openModal(meme));
+      grid.appendChild(card);
+    });
+  })
+  .catch(error => console.error('Error loading memes:', error));
+
+// Modal functions
+function openModal(meme) {
+  playSound();
+  
+  modalTitle.textContent = meme.title;
+  modalContent.innerHTML = meme.type === 'image' ? 
+    `<img src="${meme.src}" alt="${meme.title}" onerror="this.onerror=null;this.src='assets/memes/default-meme.png';">` : 
+    `<video src="${meme.src}" controls autoplay></video>`;
+  
+  modal.classList.remove('hidden');
+  overlay.classList.add('active');
+}
+
+function closeModal() {
+  playSound();
+  modal.classList.add('hidden');
+  overlay.classList.remove('active');
+  
+  // Pause any playing video in modal
+  const video = modalContent.querySelector('video');
+  if (video) video.pause();
+}
+
+// Event listeners
+closeBtn.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
+
+// Sound effect
+function playSound() {
+  clickSound.currentTime = 0;
+  clickSound.play().catch(e => console.log("Audio play prevented:", e));
+}
+
+// Draggable modal
+let isDragging = false;
+let startX, startY;
+
+modal.querySelector('.modal-header').addEventListener('mousedown', e => {
+  isDragging = true;
+  startX = e.clientX - modal.offsetLeft;
+  startY = e.clientY - modal.offsetTop;
+  modal.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  
+  const newX = e.clientX - startX;
+  const newY = e.clientY - startY;
+  
+  // Boundary check
+  const maxX = window.innerWidth - modal.offsetWidth;
+  const maxY = window.innerHeight - modal.offsetHeight;
+  
+  modal.style.left = `${Math.max(0, Math.min(newX, maxX))}px`;
+  modal.style.top = `${Math.max(0, Math.min(newY, maxY))}px`;
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  modal.style.cursor = 'default';
+});
+
+// Keyboard support
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    closeModal();
+  }
 });

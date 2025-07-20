@@ -1,12 +1,38 @@
 [
-    {
-        "title": "Funny Cat",
-        "type": "image",
-        "src": "assets/memes/funny-cat.jpg"
-    },
-    {
-        "title": "Epic Fail Video",
-        "type": "video",
-        "src": "assets/memes/epic-fail.mp4"
-    }
+  {
+    "id": 1,
+    "type": "image",
+    "src": "assets/memes/meme1.jpg",
+    "title": "Developer Life"
+  },
+  {
+    "id": 2,
+    "type": "video",
+    "src": "assets/memes/vid1.mp4",
+    "title": "Error 404 Dance"
+  },
+  {
+    "id": 3,
+    "type": "image",
+    "src": "assets/memes/meme2.jpg",
+    "title": "Debugging Mood"
+  },
+  {
+    "id": 4,
+    "type": "image",
+    "src": "assets/memes/meme3.jpg",
+    "title": "Coffee == Code"
+  },
+  {
+    "id": 5,
+    "type": "video",
+    "src": "assets/memes/vid2.mp4",
+    "title": "Git Commit Dance"
+  },
+  {
+    "id": 6,
+    "type": "image",
+    "src": "assets/memes/meme4.jpg",
+    "title": "Infinite Loop"
+  }
 ]
