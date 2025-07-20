@@ -17,21 +17,13 @@ fetch('data/memes.json')
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        ${meme.type === 'image' ? 
-          `<img src="${meme.src}" alt="${meme.title}" onerror="this.onerror=null;this.src='assets/memes/default-meme.png';">` : 
-          `<video src="${meme.src}" muted loop></video>`}
+        <div class="thumb-wrapper">
+          ${meme.type === 'image' ? 
+            `<img src="${meme.src}" alt="${meme.title}" onerror="this.onerror=null;this.src='assets/memes/default-meme.png';">` : 
+            `<img src='assets/memes/default-meme.png' alt='Video Thumbnail'>`}
+        </div>
         <div>${meme.title}</div>
       `;
-      
-      // Auto-play video on hover
-      if (meme.type === 'video') {
-        const video = card.querySelector('video');
-        card.addEventListener('mouseenter', () => video.play());
-        card.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-        });
-      }
       
       card.addEventListener('click', () => openModal(meme));
       grid.appendChild(card);
@@ -46,7 +38,12 @@ function openModal(meme) {
   modalTitle.textContent = meme.title;
   modalContent.innerHTML = meme.type === 'image' ? 
     `<img src="${meme.src}" alt="${meme.title}" onerror="this.onerror=null;this.src='assets/memes/default-meme.png';">` : 
-    `<video src="${meme.src}" controls autoplay></video>`;
+    `<video src="${meme.src}" controls autoplay playsinline></video>`;
+  
+  // Reset modal position
+  modal.style.left = '';
+  modal.style.top = '';
+  modal.style.transform = 'translate(-50%, -50%)';
   
   modal.classList.remove('hidden');
   overlay.classList.add('active');
