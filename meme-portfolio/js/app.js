@@ -80,6 +80,7 @@ const header = modal.querySelector('.modal-header');
 
 // Mouse events
 header.addEventListener('mousedown', e => {
+  e.preventDefault();
   isDragging = true;
   startX = e.clientX - modal.offsetLeft;
   startY = e.clientY - modal.offsetTop;
@@ -87,6 +88,7 @@ header.addEventListener('mousedown', e => {
 });
 document.addEventListener('mousemove', e => {
   if (!isDragging) return;
+  e.preventDefault();
   const newX = e.clientX - startX;
   const newY = e.clientY - startY;
   const maxX = window.innerWidth - modal.offsetWidth;
@@ -101,6 +103,7 @@ document.addEventListener('mouseup', () => {
 
 // Touch events for mobile
 header.addEventListener('touchstart', e => {
+  e.preventDefault();
   isDragging = true;
   const touch = e.touches[0];
   startX = touch.clientX - modal.offsetLeft;
@@ -109,6 +112,7 @@ header.addEventListener('touchstart', e => {
 }, { passive: false });
 document.addEventListener('touchmove', e => {
   if (!isDragging) return;
+  e.preventDefault();
   const touch = e.touches[0];
   const newX = touch.clientX - startX;
   const newY = touch.clientY - startY;
