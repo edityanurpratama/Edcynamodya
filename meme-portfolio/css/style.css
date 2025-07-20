@@ -143,6 +143,32 @@ header h1 {
 /* Responsive */
 @media (max-width: 768px) {
   .grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .card img, .card video {
+    height: 100px;
+  }
+  .modal {
+    width: 98vw;
+    max-width: 98vw;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+    padding: 0;
+  }
+  .modal-body img, .modal-body video {
+    max-height: 30vh;
+  }
+  .modal-header {
+    font-size: 1em;
+    padding: 10px 8px;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
   

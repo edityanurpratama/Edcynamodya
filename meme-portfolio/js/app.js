@@ -72,32 +72,52 @@ function playSound() {
   clickSound.play().catch(e => console.log("Audio play prevented:", e));
 }
 
-// Draggable modal
+// Draggable modal (mouse & touch)
 let isDragging = false;
 let startX, startY;
 
-modal.querySelector('.modal-header').addEventListener('mousedown', e => {
+const header = modal.querySelector('.modal-header');
+
+// Mouse events
+header.addEventListener('mousedown', e => {
   isDragging = true;
   startX = e.clientX - modal.offsetLeft;
   startY = e.clientY - modal.offsetTop;
   modal.style.cursor = 'grabbing';
 });
-
 document.addEventListener('mousemove', e => {
   if (!isDragging) return;
-  
   const newX = e.clientX - startX;
   const newY = e.clientY - startY;
-  
-  // Boundary check
   const maxX = window.innerWidth - modal.offsetWidth;
   const maxY = window.innerHeight - modal.offsetHeight;
-  
   modal.style.left = `${Math.max(0, Math.min(newX, maxX))}px`;
   modal.style.top = `${Math.max(0, Math.min(newY, maxY))}px`;
 });
-
 document.addEventListener('mouseup', () => {
+  isDragging = false;
+  modal.style.cursor = 'default';
+});
+
+// Touch events for mobile
+header.addEventListener('touchstart', e => {
+  isDragging = true;
+  const touch = e.touches[0];
+  startX = touch.clientX - modal.offsetLeft;
+  startY = touch.clientY - modal.offsetTop;
+  modal.style.cursor = 'grabbing';
+}, { passive: false });
+document.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const touch = e.touches[0];
+  const newX = touch.clientX - startX;
+  const newY = touch.clientY - startY;
+  const maxX = window.innerWidth - modal.offsetWidth;
+  const maxY = window.innerHeight - modal.offsetHeight;
+  modal.style.left = `${Math.max(0, Math.min(newX, maxX))}px`;
+  modal.style.top = `${Math.max(0, Math.min(newY, maxY))}px`;
+}, { passive: false });
+document.addEventListener('touchend', () => {
   isDragging = false;
   modal.style.cursor = 'default';
 });
